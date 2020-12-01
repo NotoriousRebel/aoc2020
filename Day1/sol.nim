@@ -3,7 +3,7 @@ import sequtils
 
 import strformat
 
-var nums = @[1695,
+const nums = @[1695,
 1157,
 1484,
 1717,
@@ -203,17 +203,33 @@ var nums = @[1695,
 1405,
 1784,
 1196]
-var dupNums = nums
-const targetNum = 2020
 
-for i in 0..len(nums)-1:
-    let curNum = nums[i]
-    keepIf(dupNums, proc(x: int): bool = x + curNum == targetNum)
-    if len(dupNums) == 1:
-       dupNums.add(curNum)
-       echo fmt"Numbers within dupNums equal {targetNum} and dupNums is: {dupNums}"
-       let solution = foldl(dupNums, a * b)
-       echo "Solution: ", $solution
-       break
-    dupNums = nums
-    
+proc part1() = 
+   var dupNums = nums
+   const targetNum = 2020
+   for i in 0..len(nums)-1:
+      let curNum = nums[i]
+      keepIf(dupNums, proc(x: int): bool = x + curNum == targetNum)
+      if len(dupNums) == 1:
+         dupNums.add(curNum)
+         echo fmt"Numbers within dupNums equal {targetNum} and dupNums is: {dupNums}"
+         let solution = foldl(dupNums, a * b)
+         echo "Solution: ", $solution
+         break
+      dupNums = nums
+   
+proc part2() = 
+   const targetNum = 2020
+   for i in 0..len(nums)-1:
+       for j in 0..len(nums)-2:
+           for k in 0..len(nums)-3:
+               if nums[i] + nums[j] + nums[k] == targetNum:
+                  echo fmt"The three numbers that add to {targetNum}: {nums[i]}, {nums[j]}, {nums[k]}"
+                  echo "Solution when multiplied: ", nums[i] * nums[j] * nums[k]
+                  return
+
+
+echo "part1: "
+part1()
+echo "part 2: "
+part2()
